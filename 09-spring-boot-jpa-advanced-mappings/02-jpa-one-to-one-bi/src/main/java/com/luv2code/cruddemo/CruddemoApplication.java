@@ -18,12 +18,32 @@ public class CruddemoApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(AppDAO appDAO) {
 		return runner -> {
-//			createInstructor(appDAO);
+			//createInstructor(appDAO);
 
 			//findInstructor(appDAO);
 
-			deleteInstructor(appDAO);
+			//deleteInstructor(appDAO);
+
+			//findInstructorDetail(appDAO);
+
+			deleteInstructorDetail(appDAO);
 		};
+	}
+
+	private void deleteInstructorDetail(AppDAO appDAO) {
+		int theId = 3;
+		System.out.println("Deleting instructor detail id: " + theId);
+		appDAO.deleteInstructorDetailById(theId);
+	}
+
+	private void findInstructorDetail(AppDAO appDAO) {
+		// get the instructor detail object
+		int theId = 2;
+		InstructorDetail instructorDetail = appDAO.findInstructorDetailById(theId);
+		// print the instructor detail
+		System.out.println("Find the instructor detail " + instructorDetail);
+		// print the associated instructor
+		System.out.println("Instructor: " + instructorDetail.getInstructor());
 	}
 
 	private void deleteInstructor(AppDAO appDAO) {

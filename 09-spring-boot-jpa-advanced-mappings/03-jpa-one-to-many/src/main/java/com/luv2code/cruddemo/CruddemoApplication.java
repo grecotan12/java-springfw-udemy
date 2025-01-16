@@ -1,6 +1,7 @@
 package com.luv2code.cruddemo;
 
 import com.luv2code.cruddemo.dao.AppDAO;
+import com.luv2code.cruddemo.entity.Course;
 import com.luv2code.cruddemo.entity.Instructor;
 import com.luv2code.cruddemo.entity.InstructorDetail;
 import org.springframework.boot.CommandLineRunner;
@@ -18,12 +19,65 @@ public class CruddemoApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(AppDAO appDAO) {
 		return runner -> {
-//			createInstructor(appDAO);
+			//createInstructor(appDAO);
 
 			//findInstructor(appDAO);
 
-			deleteInstructor(appDAO);
+			//deleteInstructor(appDAO);
+
+			//findInstructorDetail(appDAO);
+
+			//deleteInstructorDetail(appDAO);
+
+			createInstructorWithCourses(appDAO);
 		};
+	}
+
+	private void createInstructorWithCourses(AppDAO appDAO) {
+		Instructor instructor =
+				new Instructor("Susan", "nguyen", "lmao@abc.com");
+
+		// create instructor detail
+		InstructorDetail instructorDetail =
+				new InstructorDetail("youtube.com", "video game");
+
+		instructor.setInstructorDetail(instructorDetail);
+
+		// create some coursees
+		Course course1 = new Course("guitar");
+		Course course2 = new Course("java");
+
+		// add courses to instructor
+		instructor.add(course1);
+		instructor.add(course2);
+
+		// save the instructor
+		//
+ 		// NOTE: this will ALSO SAVE the courses
+		// because of CascadeType.PERSIS
+		System.out.println("Saving instructor " + instructor);
+		System.out.println("The courses: " + instructor.getCourses());
+
+		appDAO.save(instructor);
+
+		System.out.println("DONE!");
+
+	}
+
+	private void deleteInstructorDetail(AppDAO appDAO) {
+		int theId = 3;
+		System.out.println("Deleting instructor detail id: " + theId);
+		appDAO.deleteInstructorDetailById(theId);
+	}
+
+	private void findInstructorDetail(AppDAO appDAO) {
+		// get the instructor detail object
+		int theId = 2;
+		InstructorDetail instructorDetail = appDAO.findInstructorDetailById(theId);
+		// print the instructor detail
+		System.out.println("Find the instructor detail " + instructorDetail);
+		// print the associated instructor
+		System.out.println("Instructor: " + instructorDetail.getInstructor());
 	}
 
 	private void deleteInstructor(AppDAO appDAO) {
